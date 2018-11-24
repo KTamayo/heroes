@@ -1,0 +1,2 @@
+export const SAVE_QUERY_DATA = 'SAVE_QUERY_DATA';
+export const SAVE_QUERY_STRING = 'SAVE_QUERY_STRING';
