@@ -1,10 +1,16 @@
 import { 
   SAVE_QUERY_DATA,
   SAVE_QUERY_STRING,
+  REQUEST_PENDING,
+  REQUEST_SUCCESS,
+  REQUEST_FAILURE,
 } from '../actions/actionTypes';
 
 
 const initialState = {
+  requestPending: false,
+  requestSuccess: false,
+  requestFailure: false,
   queryString: '',
   heroData: {},
 }
@@ -21,6 +27,21 @@ const heroesReducer = (state = initialState, action) => {
         ...state,
         queryString: action.inputString,
       };
+    case REQUEST_PENDING:
+      return {
+        ...state,
+        requestPending: action.requestPending,
+      };
+    case REQUEST_SUCCESS:
+      return {
+        ...state,
+        requestSuccess: action.requestSuccess,
+      };
+    case REQUEST_FAILURE:
+      return {
+        ...state,
+        requestFailure: action.requestFailure,
+      }
     default:
       return { ...state };
   }

@@ -11,6 +11,9 @@ import configureStore from '../../store/configureStore';
 import {
   save_query_data,
   save_query_string,
+  request_pending,
+  request_success,
+  request_failure,
 } from '../../store/actions/index';
 
 const styles = theme => ({
@@ -69,10 +72,12 @@ class SearchBox extends Component {
     this.state = {
       apiData: null,
       inputString: '',
-      isLoading: false,
+      requestIsPending: false,
+      requestSucceeded: false,
+      requestFailed: false,
     }
-    
-    this.apiKey = process.env.MARVEL_API_KEY;
+    console.log(process.env.REACT_APP_MARVEL_API_KEY);
+    this.apiKey = process.env.REACT_APP_MARVEL_API_KEY;
     this.baseURL = 'https://gateway.marvel.com:443/v1/public/characters';
     this.url = '';    
   }
@@ -98,10 +103,9 @@ class SearchBox extends Component {
   }
 
   _hitAPI = async () => {
-    this.setState({ isLoading: true })
     await fetch(this.url)
       .then(response => response.json())
-      .then(data => this.setState({ apiData: data, isLoading: false, }))
+      .then(data => this.setState({ apiData: data, dataReceived: true, }))
       .catch(error => console.log(error));    
   }
 
@@ -135,12 +139,18 @@ const mapStateToProps = (state) => {
   return {
     queryString: state.inputString,
     heroData: state.apiData,
+    requestPending: state.requestIsPending,
+    requestSuccess: state.requestSucceeded,
+    requestFailure: state.requestFailed,
   };
 };
 
 const mapDispatchToProps = { 
   save_query_data, 
   save_query_string,
+  request_pending,
+  request_success,
+  request_failure,
 };
 
 export default withStyles(styles)(connect(
