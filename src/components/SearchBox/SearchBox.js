@@ -7,13 +7,13 @@ import SearchIcon from '@material-ui/icons/Search';
 import { withStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 
-import configureStore from '../../store/configureStore';
 import {
   save_query_data,
   save_query_string,
   request_pending,
   request_success,
   request_failure,
+  request_reset,
 } from '../../store/actions/index';
 
 const styles = theme => ({
@@ -22,7 +22,7 @@ const styles = theme => ({
   },
   grow: {
     flexGrow: 1,
-  },  
+  },
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -70,49 +70,49 @@ class SearchBox extends Component {
   constructor() {
     super();
     this.state = {
-      apiData: null,
       inputString: '',
-      requestIsPending: false,
-      requestSucceeded: false,
-      requestFailed: false,
     }
-    console.log(process.env.REACT_APP_MARVEL_API_KEY);
     this.apiKey = process.env.REACT_APP_MARVEL_API_KEY;
     this.baseURL = 'https://gateway.marvel.com:443/v1/public/characters';
-    this.url = '';    
+    this.url = '';
   }
 
   _handleInput = (event) => {
     this.setState({
       inputString: event.target.value,
-    })    
+    })
   }
-  
-  handleQuery = async (e) => {    
+
+  handleQuery = async (e) => {
     if (e.key === 'Enter') {
-      console.log('Enter was hit!');
-      console.log('inputString',this.state.inputString);
       this.url = `${this.baseURL}?nameStartsWith=${this.state.inputString}&apikey=${this.apiKey}`;
+      this.props.request_pending();
       await this._hitAPI();
-      this.props.save_query_data(this.state.apiData);
-      this.props.save_query_string(this.state.inputString);
-      console.log('urlString', this.url);
-      console.log('apiData', this.state.apiData);
-      console.log('state data', configureStore.getState());
-    }    
+    }
   }
 
   _hitAPI = async () => {
     await fetch(this.url)
-      .then(response => response.json())
-      .then(data => this.setState({ apiData: data, dataReceived: true, }))
-      .catch(error => console.log(error));    
+      .then((response) => {
+        if (!response.ok){
+          this.props.request_failure()
+          console.log(response.statusText);
+          throw Error(response.statusText);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        this.props.save_query_data(this.state.apiData);
+        this.props.save_query_string(this.state.inputString);
+        this.props.requestSuccess();
+      })
+      .catch(error => console.log(error));
   }
 
   render() {
-    const { classes } = this.props; 
-    return (              
-      <div className={classes.root}> 
+    const { classes } = this.props;
+    return (
+      <div className={classes.root}>
         <Toolbar position='static'>
           <div className={classes.grow} />
           <div className={classes.search}>
@@ -129,28 +129,25 @@ class SearchBox extends Component {
               }}
             />
           </div>
-        </Toolbar>        
-      </div>   
+        </Toolbar>
+      </div>
     );
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    queryString: state.inputString,
     heroData: state.apiData,
-    requestPending: state.requestIsPending,
-    requestSuccess: state.requestSucceeded,
-    requestFailure: state.requestFailed,
   };
 };
 
-const mapDispatchToProps = { 
-  save_query_data, 
+const mapDispatchToProps = {
+  save_query_data,
   save_query_string,
   request_pending,
   request_success,
   request_failure,
+  request_reset,
 };
 
 export default withStyles(styles)(connect(
