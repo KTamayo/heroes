@@ -1,4 +1,4 @@
-import { 
+import {
   SAVE_QUERY_DATA,
   SAVE_QUERY_STRING,
   REQUEST_PENDING,
@@ -20,7 +20,7 @@ const heroesReducer = (state = initialState, action) => {
     case SAVE_QUERY_DATA:
       return {
         ...state,
-        heroData: Object.assign({}, state.heroData, action.apiData)        
+        heroData: Object.assign({}, state.heroData, action.apiData)
       };
     case SAVE_QUERY_STRING:
       return {
@@ -42,6 +42,13 @@ const heroesReducer = (state = initialState, action) => {
         ...state,
         requestFailure: action.requestFailure,
       }
+    case REQUEST_RESET:
+    return {
+      ...sate,
+      requestPending: action.requestPending,
+      requestSuccess: action.requestSuccess,
+      requestFailure: action.requestFailure,
+    }
     default:
       return { ...state };
   }
