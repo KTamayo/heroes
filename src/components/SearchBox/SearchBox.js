@@ -85,8 +85,9 @@ class SearchBox extends Component {
 
   handleQuery = async (e) => {
     if (e.key === 'Enter') {
-      this.url = `${this.baseURL}?nameStartsWith=${this.state.inputString}&apikey=${this.apiKey}`;
+      this.props.request_reset()
       this.props.request_pending();
+      this.url = `${this.baseURL}?nameStartsWith=${this.state.inputString}&apikey=${this.apiKey}`;
       await this._hitAPI();
       console.log('data', this.props.heroData)
     }
@@ -103,9 +104,9 @@ class SearchBox extends Component {
         return response.json();
       })
       .then((responseData) => {
+        this.props.request_success();
         this.props.save_query_data(responseData.data.results);
         this.props.save_query_string(this.state.inputString);
-        this.props.request_success();
       })
       .catch(error => console.log(error));
   }
