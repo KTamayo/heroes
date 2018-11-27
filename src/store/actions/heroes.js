@@ -31,6 +31,7 @@ export const request_pending = () => {
 export const request_success = () => {
   return {
     type: REQUEST_SUCCESS,
+    requestPending: false,
     requestSuccess: true,
   }
 };

@@ -36,6 +36,7 @@ const heroesReducer = (state = initialState, action) => {
     case REQUEST_SUCCESS:
       return {
         ...state,
+        requestPending: action.requestPending,
         requestSuccess: action.requestSuccess,
       };
     case REQUEST_FAILURE:
