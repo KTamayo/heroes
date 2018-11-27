@@ -88,6 +88,7 @@ class SearchBox extends Component {
       this.url = `${this.baseURL}?nameStartsWith=${this.state.inputString}&apikey=${this.apiKey}`;
       this.props.request_pending();
       await this._hitAPI();
+      console.log('data', this.props.heroData)
     }
   }
 
@@ -101,10 +102,10 @@ class SearchBox extends Component {
         }
         return response.json();
       })
-      .then((data) => {
-        this.props.save_query_data(this.state.apiData);
+      .then((responseData) => {
+        this.props.save_query_data(responseData.data.results);
         this.props.save_query_string(this.state.inputString);
-        this.props.requestSuccess();
+        this.props.request_success();
       })
       .catch(error => console.log(error));
   }
@@ -137,7 +138,7 @@ class SearchBox extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    heroData: state.apiData,
+    heroData: state.heroes.heroData,
   };
 };
 
