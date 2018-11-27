@@ -4,6 +4,7 @@ import {
   REQUEST_PENDING,
   REQUEST_SUCCESS,
   REQUEST_FAILURE,
+  REQUEST_RESET,
 } from '../actions/actionTypes';
 
 
@@ -44,7 +45,7 @@ const heroesReducer = (state = initialState, action) => {
       }
     case REQUEST_RESET:
     return {
-      ...sate,
+      ...state,
       requestPending: action.requestPending,
       requestSuccess: action.requestSuccess,
       requestFailure: action.requestFailure,
