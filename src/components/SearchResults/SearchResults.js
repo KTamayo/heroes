@@ -1,20 +1,33 @@
 import React from 'react';
-import configureStore from '../../store/configureStore';
+import { connect } from 'react-redux';
 
-let state = configureStore.getState();
-console.log('searchResults', state.heroData);
-const numbers = [1,2,3,4];
+import '../../App.css';
+import logo from '../../logo.svg';
 
-const SearchResults = () => {
-  for(let item in state.heroData){
-    console.log(item)
-  }  
-  let listItems = numbers.map((number, index) => <li key={index}>{number}</li> );
+const SearchResults = (props) => {
+  let output = null;
+  if (props.requestPending){
+    output = (
+      <img src={logo} alt='logo' className='App-logo' />
+    )
+  }
+  if (props.requestSuccess) {
+    output = Object.keys((props.heroData)).map((key) => {
+      return <li key={key}>{props.heroData[key].name}</li>
+    });
+  }
   return (
     <div>
-      {listItems}
+      <p>Search Results</p>
+      {output}
     </div>
   )
 }
-
-export default SearchResults;
+const mapStateToProps = (state) => {
+  return {
+    requestPending: state.heroes.requestPending,
+    requestSuccess: state.heroes.requestSuccess,
+    heroData: state.heroes.heroData,
+  };
+}
+export default connect(mapStateToProps)(SearchResults);
