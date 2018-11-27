@@ -28,6 +28,12 @@ const styles = theme => ({
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
   },
+  greeting: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  }
 });
 
 const TitlebarGridList = (props) => {
@@ -61,7 +67,7 @@ const TitlebarGridList = (props) => {
 
 const SearchResults = (props) => {
   let output = null;
-  if (props.requestPending){
+  if (props.requestPending) {
     output = (
       <img src={logo} alt='logo' className='App-logo' />
     )
@@ -71,6 +77,19 @@ const SearchResults = (props) => {
     //   return <li key={key}>{props.heroData[key].name}</li>
     // });
     output = TitlebarGridList(props);
+  }
+  if (!props.requestPending && !props.requestSuccess) {
+    output = (
+      <div>
+        <h1>Try searching for your favorite Marvel Heroes!</h1><br></br>
+        <p>e.g. 'iron' or 'silver' or 'dead' or 'spider'</p>
+      </div>
+    )
+  }
+  if (props.requestFailure) {
+    output = (
+        <h1>Bad search entry, try again!</h1>
+    )
   }
   return (
     <div>
@@ -82,6 +101,7 @@ const mapStateToProps = (state) => {
   return {
     requestPending: state.heroes.requestPending,
     requestSuccess: state.heroes.requestSuccess,
+    requestFailure: state.heroes.requestFailure,
     heroData: state.heroes.heroData,
   };
 }
