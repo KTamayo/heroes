@@ -89,7 +89,7 @@ class SearchBox extends Component {
       this.props.request_pending();
       this.url = `${this.baseURL}?nameStartsWith=${this.state.inputString}&apikey=${this.apiKey}`;
       await this._hitAPI();
-      console.log('data', this.props.heroData)
+      // console.log('data', this.props.heroData)
     }
   }
 
