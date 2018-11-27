@@ -86,8 +86,8 @@ class SearchBox extends Component {
   handleQuery = async (e) => {
     if (e.key === 'Enter') {
       this.props.request_reset()
-      this.props.request_pending();
-      this.url = `${this.baseURL}?nameStartsWith=${this.state.inputString}&apikey=${this.apiKey}`;
+      this.props.request_pending();      
+      this.url = `${this.baseURL}?nameStartsWith=${this.state.inputString.trim()}&apikey=${this.apiKey}`;
       await this._hitAPI();
       // console.log('data', this.props.heroData)
     }
