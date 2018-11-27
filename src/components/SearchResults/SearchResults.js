@@ -34,14 +34,14 @@ const TitlebarGridList = (props) => {
   const { classes } = props;
   return (
     <div className={classes.root}>
-      <GridList cellHeight={180} className={classes.gridList}>
+      <GridList cellHeight={324} className={classes.gridList}>
         <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
           <ListSubheader component="div">Selected Heroes</ListSubheader>
         </GridListTile>
         {Object.keys((props.heroData)).map((key) => (
           <GridListTile key={key}>
             <img
-              src={`${props.heroData[key].thumbnail.path}/portrait_uncanny.${props.heroData[key].thumbnail.extension}`}
+              src={`${props.heroData[key].thumbnail.path}/portrait_incredible.${props.heroData[key].thumbnail.extension}`}
               alt={props.heroData[key].name} />
             <GridListTileBar
               title={props.heroData[key].name}
