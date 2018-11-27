@@ -21,7 +21,7 @@ const heroesReducer = (state = initialState, action) => {
     case SAVE_QUERY_DATA:
       return {
         ...state,
-        heroData: Object.assign({}, state.heroData, action.apiData)
+        heroData: action.responseData,
       };
     case SAVE_QUERY_STRING:
       return {

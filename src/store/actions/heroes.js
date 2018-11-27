@@ -7,10 +7,10 @@ import {
   REQUEST_RESET,
 } from './actionTypes';
 
-export const save_query_data = (response) => {
+export const save_query_data = (responseData) => {
   return {
     type: SAVE_QUERY_DATA,
-    apiData: response.data.results,
+    responseData: responseData,
   };
 };
 
