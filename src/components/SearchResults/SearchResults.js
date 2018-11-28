@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
@@ -16,22 +16,22 @@ const styles = theme => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    // justifyContent: 'flex-start',
+    justifyContent: 'space-around',    
     overflow: 'hidden',
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.paper,    
   },
   gridList: {
-    width: '97%',
+    width: '70%',
     height: '50%',
   },
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
   },
-  greeting: {
+  greetingContainer: {
     display: 'flex',
-    flexWrap: 'wrap',
-    flexDirection: 'row',
+  },
+  greeting: {
+    alignContent: 'center',
     justifyContent: 'center',
   }
 });
@@ -40,9 +40,9 @@ const TitlebarGridList = (props) => {
   const { classes } = props;
   return (
     <div className={classes.root}>
-      <GridList cellHeight={324} className={classes.gridList}>
+      <GridList cellHeight={600} className={classes.gridList}>
         <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-          <ListSubheader component="div">Selected Heroes</ListSubheader>
+          <ListSubheader component="div">Found these heroes!:</ListSubheader>
         </GridListTile>
         {Object.keys((props.heroData)).map((key) => (
           <GridListTile key={key}>
@@ -69,7 +69,13 @@ const SearchResults = (props) => {
   let output = null;
   if (props.requestPending) {
     output = (
-      <img src={logo} alt='logo' className='App-logo' />
+      <div>
+        <img 
+          src={logo}
+          alt='logo'
+          className='App-logo'          
+        />
+      </div>
     )
   }
   if (props.requestSuccess) {
@@ -80,10 +86,10 @@ const SearchResults = (props) => {
   }
   if (!props.requestPending && !props.requestSuccess) {
     output = (
-      <div>
+      <Fragment>
         <h1>Try searching for your favorite Marvel Heroes!</h1><br></br>
         <p>e.g. 'iron' or 'silver' or 'dead' or 'spider'</p>
-      </div>
+      </Fragment>      
     )
   }
   if (props.requestFailure) {
