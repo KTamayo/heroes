@@ -69,20 +69,26 @@ const SearchResults = (props) => {
   let output = null;
   if (props.requestPending) {
     output = (
-      <div>
+      <Fragment>
         <img 
           src={logo}
           alt='logo'
           className='App-logo'          
         />
-      </div>
+      </Fragment>      
     )
   }
   if (props.requestSuccess) {
-    // output = Object.keys((props.heroData)).map((key) => {
-    //   return <li key={key}>{props.heroData[key].name}</li>
-    // });
-    output = TitlebarGridList(props);
+    // console.log(Object.keys(props.heroData).length)
+    if (Object.keys(props.heroData).length === 0) {
+      output = (
+        <Fragment>
+          <h1>No search results matching {props.searchString}</h1>
+        </Fragment>
+      )
+    } else {
+      output = TitlebarGridList(props);
+    }    
   }
   if (!props.requestPending && !props.requestSuccess) {
     output = (
@@ -94,7 +100,7 @@ const SearchResults = (props) => {
   }
   if (props.requestFailure) {
     output = (
-        <h1>Bad search entry, try again!</h1>
+        <h1>Data request failed, try again later!</h1>
     )
   }
   return (
@@ -109,6 +115,7 @@ const mapStateToProps = (state) => {
     requestSuccess: state.heroes.requestSuccess,
     requestFailure: state.heroes.requestFailure,
     heroData: state.heroes.heroData,
+    searchString: state.heroes.queryString,
   };
 }
 export default withStyles(styles)(connect(mapStateToProps)(SearchResults));
