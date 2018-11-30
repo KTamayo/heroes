@@ -21,7 +21,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,    
   },
   gridList: {
-    width: '70%',
+    width: '90%',
     height: '50%',
   },
   icon: {
@@ -78,8 +78,7 @@ const SearchResults = (props) => {
       </Fragment>      
     )
   }
-  if (props.requestSuccess) {
-    // console.log(Object.keys(props.heroData).length)
+  if (props.requestSuccess) {    
     if (Object.keys(props.heroData).length === 0) {
       output = (
         <Fragment>
