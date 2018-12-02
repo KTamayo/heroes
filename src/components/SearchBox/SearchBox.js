@@ -67,15 +67,10 @@ const styles = theme => ({
 });
 
 class SearchBox extends Component {
-  constructor() {
-    super();
-    this.state = {
-      inputString: '',
-    }
-    this.apiKey = process.env.REACT_APP_MARVEL_API_KEY;
-    this.baseURL = 'https://gateway.marvel.com:443/v1/public/characters';
-    this.url = '';
-  }
+
+  apiKey = process.env.REACT_APP_MARVEL_API_KEY;
+  baseURL = 'https://gateway.marvel.com:443/v1/public/characters';
+  url = '';
 
   _handleInput = (event) => {
     this.setState({
