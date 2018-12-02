@@ -28,7 +28,7 @@ const styles = theme => ({
   },  
 });
 
-function SearchAppBar(props) {
+const SearchAppBar = (props) => {
   const { classes } = props;
   return (
     <div className={classes.root}>
