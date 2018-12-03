@@ -88,8 +88,7 @@ class SearchBox extends Component {
       this.props.request_reset()
       this.props.request_pending();      
       this.url = `${this.baseURL}?nameStartsWith=${this.state.inputString.trim()}&apikey=${this.apiKey}`;
-      await this._hitAPI();
-      // console.log('data', this.props.heroData)
+      await this._hitAPI();      
     }
   }
 
@@ -137,12 +136,6 @@ class SearchBox extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    heroData: state.heroes.heroData,
-  };
-};
-
 const mapDispatchToProps = {
   save_query_data,
   save_query_string,
@@ -152,7 +145,7 @@ const mapDispatchToProps = {
   request_reset,
 };
 
-export default withStyles(styles)(connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SearchBox));
+export default withStyles(styles)(
+  connect(  
+    mapDispatchToProps,
+  )(SearchBox));
