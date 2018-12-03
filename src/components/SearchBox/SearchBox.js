@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+
 import { connect } from 'react-redux';
+
+import createBrowserHistory from 'history/createBrowserHistory';
 
 import Toolbar from '@material-ui/core/Toolbar';
 import InputBase from '@material-ui/core/InputBase';
@@ -68,6 +71,7 @@ const styles = theme => ({
 
 class SearchBox extends Component {
 
+  history = createBrowserHistory();
   apiKey = process.env.REACT_APP_MARVEL_API_KEY;
   baseURL = 'https://gateway.marvel.com:443/v1/public/characters';
   url = '';
@@ -80,6 +84,7 @@ class SearchBox extends Component {
 
   handleQuery = async (e) => {
     if (e.key === 'Enter') {
+      this.history.push({pathname:'/'})
       this.props.request_reset()
       this.props.request_pending();      
       this.url = `${this.baseURL}?nameStartsWith=${this.state.inputString.trim()}&apikey=${this.apiKey}`;
