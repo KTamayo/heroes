@@ -5,6 +5,7 @@ import {
   REQUEST_SUCCESS,
   REQUEST_FAILURE,
   REQUEST_RESET,
+  SELECT_HERO,
 } from '../actions/actionTypes';
 
 
@@ -13,6 +14,7 @@ const initialState = {
   requestSuccess: false,
   requestFailure: false,
   queryString: '',
+  queryData: {},
   heroData: {},
 }
 
@@ -21,7 +23,7 @@ const heroesReducer = (state = initialState, action) => {
     case SAVE_QUERY_DATA:
       return {
         ...state,
-        heroData: action.responseData,
+        queryData: action.responseData,
       };
     case SAVE_QUERY_STRING:
       return {
@@ -45,12 +47,17 @@ const heroesReducer = (state = initialState, action) => {
         requestFailure: action.requestFailure,
       }
     case REQUEST_RESET:
-    return {
-      ...state,
-      requestPending: action.requestPending,
-      requestSuccess: action.requestSuccess,
-      requestFailure: action.requestFailure,
-    }
+      return {
+        ...state,
+        requestPending: action.requestPending,
+        requestSuccess: action.requestSuccess,
+        requestFailure: action.requestFailure,
+      }
+    case SELECT_HERO:
+      return {
+        ...state,
+        heroData: action.heroData,
+      }
     default:
       return { ...state };
   }

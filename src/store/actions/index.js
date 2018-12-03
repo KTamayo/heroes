@@ -5,4 +5,5 @@ export {
   request_success,
   request_failure,
   request_reset,
+  select_hero,
  } from './heroes';

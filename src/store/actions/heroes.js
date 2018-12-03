@@ -5,6 +5,7 @@ import {
   REQUEST_SUCCESS,
   REQUEST_FAILURE,
   REQUEST_RESET,
+  SELECT_HERO,  
 } from './actionTypes';
 
 export const save_query_data = (responseData) => {
@@ -49,5 +50,12 @@ export const request_reset = () => {
     requestPending: false,
     requestSuccess: false,
     requestFailure: false,
+  }
+}
+
+export const select_hero = (heroData) => {
+  return {
+    type: SELECT_HERO,
+    heroData: heroData,
   }
 }
