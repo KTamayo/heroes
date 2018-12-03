@@ -146,6 +146,7 @@ const mapDispatchToProps = {
 };
 
 export default withStyles(styles)(
-  connect(  
+  connect(
+    null,
     mapDispatchToProps,
   )(SearchBox));
