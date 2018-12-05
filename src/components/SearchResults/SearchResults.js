@@ -2,6 +2,8 @@ import React, { Fragment } from 'react';
 
 import { select_hero } from '../../store/actions/index';
 
+import { Link } from 'react-router-dom';
+
 import { connect } from 'react-redux';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -19,47 +21,44 @@ const styles = theme => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
-    justifyContent: 'space-around',    
+    justifyContent: 'space-around',
     overflow: 'hidden',
     backgroundColor: theme.palette.background.paper,    
-  },
-  gridList: {
-    width: '90%',
-    height: '50%',
   },
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
   },
-  greetingContainer: {
-    display: 'flex',
+  tile: {
+    border: '5px solid black',
   },
-  greeting: {
-    alignContent: 'center',
-    justifyContent: 'center',
-  }
 });
-
-
-const _handleImageClick = (key, props) => {
-  props.select_hero(props.queryData[key]);  
-};
 
 const TitlebarGridList = (props) => {
   const { classes } = props;
+  const data = props.queryData;
+
   return (
     <div className={classes.root}>
-      <GridList cellHeight={600} className={classes.gridList}>
+      <GridList cellHeight={320}>
         <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
           <ListSubheader component="div">Found these heroes!:</ListSubheader>
         </GridListTile>
-        {Object.keys((props.queryData)).map((key) => (          
-          <GridListTile key={key} onClick={() => _handleImageClick(key, props)}>
-            <img              
-              src={`${props.queryData[key].thumbnail.path}/portrait_incredible.${props.queryData[key].thumbnail.extension}`}
-              alt={props.queryData[key].name} 
+        {Object.keys(data).map((key) => (
+          <GridListTile
+            key={key}
+            rows={1}
+            cols={0.3}
+            onClick={() => props.select_hero(data[key])}
+          >
+            <Link to='/hero_detail'>
+            <img
+              style={{ cursor: 'pointer' }}
+              src={`${data[key].thumbnail.path}/portrait_incredible.${data[key].thumbnail.extension}`}
+              alt={data[key].name}
             />
+            </Link>
             <GridListTileBar
-              title={props.queryData[key].name}
+              title={data[key].name}
               subtitle={<span></span>}
               actionIcon={
                 <IconButton className={classes.icon}>
@@ -81,7 +80,7 @@ const SearchResults = (props) => {
       <Fragment>
         <img 
           src={logo}
-          alt='logo'
+          alt='Loading...'
           className='App-logo'          
         />
       </Fragment>      
@@ -130,6 +129,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   select_hero,
 }
+
 export default withStyles(styles)(
   connect(
     mapStateToProps, 
