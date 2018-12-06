@@ -1,4 +1,11 @@
 import React from 'react';
+
+import { request_reset } from '../../store/actions/index';
+
+import { connect } from 'react-redux';
+
+import { Link } from 'react-router-dom';
+
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -25,7 +32,11 @@ const styles = theme => ({
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
-  },  
+  },
+  homeLink:{
+    textDecoration: 'none', 
+    color:'white',
+  }, 
 });
 
 const SearchAppBar = (props) => {
@@ -38,7 +49,9 @@ const SearchAppBar = (props) => {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h5" color="inherit">
-            HeroSearch
+            <Link to='/' className={classes.homeLink} onClick={() => props.request_reset()}>
+              HeroSearch
+            </Link>    
           </Typography>
           <SearchBox />          
         </Toolbar>
@@ -51,4 +64,10 @@ SearchAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SearchAppBar);
+const mapDispatchToProps = {
+  request_reset,
+}
+
+export default withStyles(styles)(
+  connect(null, mapDispatchToProps)(SearchAppBar)
+);
